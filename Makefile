@@ -1,10 +1,11 @@
-CPP_FLAGS=-m32 -fno-use-cxa-atexit -nostdlib -fno-builtin -fno-rtti -fno-exceptions -fno-leading-underscore
-ASM_FLAGS=--32
-LD_FLAGS=-melf_i386
+CPP_FLAGS=-ffreestanding -O2 -Wall -Wextra -fno-exceptions -fno-rtti
+ASM_FLAGS=
+LD_FLAGS=-ffreestanding -O2 -nostdlib -lgcc
 
-CPP=g++
-ASM=as
-LNK=ld
+TOOLCHAIN=../cross
+CPP=$(TOOLCHAIN)/bin/i686-elf-g++
+ASM=$(TOOLCHAIN)/bin/i686-elf-as
+LNK=$(TOOLCHAIN)/bin/i686-elf-g++
 
 files = loader.o kernel.o
 
