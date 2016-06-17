@@ -1,0 +1,6 @@
+### BEGIN DFKRNL ###
+menuentry 'DFKRNL' {
+    multiboot /boot/dfkrnl.bin
+    boot
+}
+### END DFKRNL ###
