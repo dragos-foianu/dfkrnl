@@ -20,9 +20,12 @@ dfkrnl.bin: linker.ld $(files)
 
 build: dfkrnl.bin
 
-install: dfkrnl.bin
-	sudo cp $< /boot/
-	sudo bash -c 'cat grubtemplate >> /boot/grub/grub.cfg'
+iso: dfkrnl.bin
+	mkdir -p isotmp/boot/grub/
+	cp dfkrnl.bin isotmp/boot/
+	cp grub.cfg isotmp/boot/grub/grub.cfg
+	grub-mkrescue -o dfkrnl.iso isotmp
+	rm -rf isotmp
 
 clean:
-	rm -rf *.o dfkrnl.bin
+	rm -rf *.o dfkrnl.bin dfkrnl.iso
