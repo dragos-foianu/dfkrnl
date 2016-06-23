@@ -20,7 +20,7 @@ void printf(const char * str)
 }
 
 /* Entry */
-extern "C" void dfkrnlMain(void * multiboot, unsigned int magic)
+extern "C" void kmain(void)
 {
     printf("Hello, World!");
 
