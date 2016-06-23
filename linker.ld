@@ -1,23 +1,28 @@
-
+/* start executing at symbol "entry" (in loader.s) */
 ENTRY(entry)
-OUTPUT_FORMAT(elf32-i386)
-OUTPUT_ARCH(i386:i386)
 
 SECTIONS
 {
-    . = 0x0100000;
+    /* Like all kernels, begin at 1MiB */
+    . = 1M;
 
-    /* multiboot, all text sections and rodata */
-    .text :
+    /* multiboot, text */
+    .text ALIGN(4K) :
     {
         *(.multiboot)
-        *(.text*)
+        *(.text)
+    }
+
+    /* read-only data */
+    .rodata ALIGN(4K) :
+    {
         *(.rodata)
     }
 
-    /* global object constructors and all data sections */
-    .data :
+    /* read-write initialized data */
+    .data ALIGN(4K) :
     {
+        /* global object constructors */
         start_ctors = .;
         KEEP(*(.init_array))
         KEEP(*(SORT_BY_INIT_PRIORITY(.init_array.*)))
@@ -26,9 +31,10 @@ SECTIONS
         *(.data)
     }
 
-    /* stack segment */
-    .bss :
+    /* read-write unitialized data and stack */
+    .bss ALIGN(4K) :
     {
+        *(COMMON)
         *(.bss)
     }
 
